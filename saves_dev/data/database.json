@@ -1,0 +1,58 @@
+{
+    "databases": [
+        {
+            "name": "五原验证点",
+            "description": "",
+            "db_type": "knowledge",
+            "db_id": "ab74b820",
+            "embed_model": "local/BAAI/bge-m3",
+            "metaname": "kab74b820",
+            "metadata": {
+                "collection_name": "kab74b820",
+                "auto_id": false,
+                "num_shards": 1,
+                "description": "",
+                "fields": [
+                    {
+                        "field_id": 100,
+                        "name": "id",
+                        "description": "",
+                        "type": 5,
+                        "params": {},
+                        "is_primary": true
+                    },
+                    {
+                        "field_id": 101,
+                        "name": "vector",
+                        "description": "",
+                        "type": 101,
+                        "params": {
+                            "dim": 1024
+                        }
+                    }
+                ],
+                "functions": [],
+                "aliases": [],
+                "collection_id": 457161453019420449,
+                "consistency_level": 2,
+                "properties": {},
+                "num_partitions": 1,
+                "enable_dynamic_field": true,
+                "created_timestamp": 457272478380064774,
+                "row_count": 0
+            },
+            "files": [
+                {
+                    "file_id": "file_ae9c65ba",
+                    "filename": "五原验证点_f440.pdf",
+                    "path": "saves/data/uploads/五原验证点_f440.pdf",
+                    "type": "pdf",
+                    "status": "done",
+                    "created_at": 1744356102.6787055
+                }
+            ],
+            "dimension": 1024
+        }
+    ],
+    "graph": {}
+}

@@ -224,7 +224,7 @@ const meta = reactive(JSON.parse(localStorage.getItem('meta')) || {
   selectedKB: null,
   stream: true,
   summary_title: false,
-  history_round: 5,
+  history_round: 3,
   db_name: null,
 })
 
@@ -441,6 +441,7 @@ const loadDatabases = () => {
 }
 
 // 新函数用于处理 fetch 请求
+//前端聊天的post请求
 const fetchChatResponse = (user_input, cur_res_id) => {
   fetch('/api/chat/', {
     method: 'POST',

@@ -102,7 +102,7 @@ console.log(route)
     <div class="header" :class="{ 'top-bar': layoutSettings.useTopBar }">
       <div class="logo circle">
         <router-link to="/">
-          <img src="/avatar.jpg">
+          <img src="/avatar.png">
           <span class="logo-text">语析</span>
         </router-link>
       </div>

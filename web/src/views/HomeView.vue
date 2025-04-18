@@ -1,11 +1,11 @@
 <template>
   <div class="welcome">
-    <header class="glass-header">江南语析</header>
+    <header class="glass-header">中科院计算所</header>
     <h1>{{ title }}</h1>
     <p>大模型驱动的知识库管理工具</p>
-    <button class="home-btn" @click="goToChat">开始对话</button>
-    <img src="/home.png" alt="Placeholder Image" />
-    <footer>© 江南语析 2025 [WIP] v0.12.138</footer>
+    <button class="home-btn" @click="goToChat">进入主页</button>
+    <img src="/home.webp" alt="Placeholder Image" />
+    <footer>© caty 2025 [WIP] v0.12.138</footer>
   </div>
 </template>
 
@@ -13,7 +13,7 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-const title = ref('📢 Yuxi-Know ✨')
+const title = ref('大模型知识增强管理工具')
 const router = useRouter()
 
 const goToChat = () => {

@@ -1,7 +1,7 @@
 import json
 import asyncio
 from fastapi import APIRouter, Body
-from fastapi.responses import StreamingResponse, Response
+from fastapi.responses import StreamingResponse, Response,JSONResponse
 from src.core import HistoryManager
 from src.core.startup import startup, executor
 from src.utils.logging_config import logger
@@ -88,6 +88,73 @@ def chat_post(
             return
 
     return StreamingResponse(generate_response(), media_type='application/json')
+
+@chat.post("/answer")
+def answer_post(
+        query: str = Body(...),
+        meta: dict = Body(None)
+):
+
+    logger.debug(f"Received query: {query} with meta: {meta}")
+
+    def need_retrieve(meta):
+        return meta.get("use_web") or meta.get("use_graph") or meta.get("db_name")
+
+    modified_query = query
+    if "server_model_name" in meta.keys():
+        model_name = meta["server_model_name"]
+    else:
+        model_name=None
+    refs = None
+
+    # 处理知识库检索
+    if meta and need_retrieve(meta):
+        try:
+            modified_query, refs = startup.retriever(modified_query,None, meta)
+        except Exception as e:
+            logger.error(f"Retriever error: {e}")
+            return JSONResponse({
+                "message": f"Retriever error: {e}",
+                "status": "error",
+                "select_model_name": model_name,
+                "meta": meta
+            })
+
+    content = ""
+    reasoning_content = ""
+    if "system" in meta:
+        system = meta['system']
+    else:
+        system = None
+    try:
+        # 非流式调用模型
+        delta = startup.model.predict(modified_query, system=system, model_name=model_name, stream=False)
+        if not delta.content and hasattr(delta, 'reasoning_content'):
+            reasoning_content += delta.reasoning_content or ""
+   
+        # 文心一言
+        if hasattr(delta, 'is_full') and delta.is_full:
+            content = delta.content
+        else:
+            content += delta.content or ""
+
+        logger.debug(f"response: {content}")
+        response = {
+            "response": content,
+            "select_model_name": model_name,
+            "meta": meta,
+            "status": "finished",
+            # "refs": messages
+        }
+        return JSONResponse(response)
+    except Exception as e:
+        logger.error(f"Model error: {e}")
+        return JSONResponse({
+            "message": f"Model error: {e}",
+            "status": "error",
+            "select_model_name": model_name,
+            "meta": meta
+        })
 
 @chat.post("/call")
 async def call(query: str = Body(...), meta: dict = Body(None)):

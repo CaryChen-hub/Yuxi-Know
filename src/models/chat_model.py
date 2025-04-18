@@ -10,29 +10,42 @@ class OpenAIBase():
         self.model_name = model_name
         # logger.debug(f"{self.get_models()=}")
 
-    def predict(self, message, stream=False):
+    def predict(self, message, system=None, model_name=None, stream=False):
         if isinstance(message, str):
             messages=[{"role": "user", "content": message}]
         else:
             messages = message
 
-        if stream:
-            return self._stream_response(messages)
-        else:
-            return self._get_response(messages)
+        if system is not None:
+            messages.append({"role": "system", "content": system})
 
-    def _stream_response(self, messages):
+        if stream:
+            return self._stream_response(messages,model_name)
+        else:
+            return self._get_response(messages,model_name)
+
+    def _stream_response(self, messages, model_name=None):
+        if model_name:
+            model = model_name
+        else:
+            model = self.model_name
+
         response = self.client.chat.completions.create(
-            model=self.model_name,
+            model=model,
             messages=messages,
             stream=True,
         )
         for chunk in response:
             yield chunk.choices[0].delta
 
-    def _get_response(self, messages):
+    def _get_response(self, messages, model_name=None):
+        if model_name:
+            model = model_name
+        else:
+            model = self.model_name
+            
         response = self.client.chat.completions.create(
-            model=self.model_name,
+            model=model,
             messages=messages,
             stream=False,
         )

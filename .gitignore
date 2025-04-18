@@ -8,20 +8,20 @@ node_modules
 
 ### common gitignore
 .DS_Store
-.env
-.env.local
-.env.*.local
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-*.log
-log
-logs
-*.log.*
-*.db
-*.lock
-tmp
-cache
+# .env
+# .env.local
+# .env.*.local
+# npm-debug.log*
+# yarn-debug.log*
+# yarn-error.log*
+#*.log
+#log
+#logs
+#*.log.*
+# *.db
+# *.lock
+# tmp
+# cache
 
 ### IDE
 .vscode
@@ -30,13 +30,13 @@ cache
 
 *.pdf
 src/data
-*/package-lock.json
-web/package-lock.json
-saves
-saves_dev
-notebooks
-graphrag
+# */package-lock.json
+## web/package-lock.json
+## saves
+## saves_dev
+## notebooks
+## graphrag
 docker/volumes
-.cursorrules
+# .cursorrules
 
-/models
+# /models
